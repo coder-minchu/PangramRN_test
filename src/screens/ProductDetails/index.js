@@ -1,27 +1,79 @@
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, Image, Dimensions } from 'react-native';
+import { View, Text, Button, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
 import CustomButton from '../../components/Button/CustomButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import Header from '../../components/Header/Header';
 
 const ProductDetailsScreen = ({ route }) => {
     const { product } = route.params;
+    const navigation = useNavigation();
     const [isAddedToCart, setIsAddedToCart] = useState(false);
+    const [cartCount, setCartCount] = useState(null);
+    const [cartItems, setCartItems] = useState([]);
 
-    const addToCart = () => {
-        // Implement your cart logic here, e.g., store the product in state or AsyncStorage
-        setIsAddedToCart(true);
+    useFocusEffect(
+        React.useCallback(() => {
+            const fetchData = async () => {
+                try {
+                    const cart = await AsyncStorage.getItem('cart');
+                    if (cart) {
+                        const cartArray = JSON.parse(cart);
+                        setCartItems(cartArray);
+                        setCartCount(cartArray.length);
+                    }
+                } catch (error) {
+                    console.error('Error retrieving cart items:', error);
+                }
+            };
+
+            fetchData();
+
+        }, [])
+    );
+
+
+
+    const addToCart = async () => {
+        try {
+            const existingCart = await AsyncStorage.getItem('cart');
+            const cartArray = existingCart ? JSON.parse(existingCart) : [];
+
+            const existingProduct = cartArray.find((item) => item.id === product.id);
+
+            if (existingProduct) {
+                existingProduct.quantity = (existingProduct.quantity || 0) + 1;
+            } else {
+                product.quantity = 1;
+                cartArray.push(product);
+            }
+
+            await AsyncStorage.setItem('cart', JSON.stringify(cartArray));
+
+            setCartCount(cartArray.length);
+            setIsAddedToCart(true);
+        } catch (error) {
+            console.error('Error adding to cart:', error);
+        }
     };
 
+
+
     const startRating = (num) => {
-        if (num == 3) {
-            return '★★★'
-        } else if (num == 4) {
-            return '★★★★'
-        } else if (num == 5) {
-            return '★★★★★'
-        }
-    }
+        // console.log(num)
+        const stars = ['', '★', '★★', '★★★', '★★★★', '★★★★★'];
+        return stars[num];
+    };
+
     return (
         <View style={{ flex: 1 }}>
+            <Header
+                title="Product Details"
+                back={true}
+                cartCount={cartCount}
+                onBackPress={() => navigation.goBack()}
+                onCartPress={() => navigation.navigate('ShoppingCart')}
+            />
             <View style={styles.card}>
                 <Image source={{ uri: product.thumbnail }} style={styles.thumbnail} />
             </View>
@@ -73,7 +125,11 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').height / 3,
         height: Dimensions.get('window').height / 3,
         resizeMode: 'cover',
-        alignItems: 'center'
+    },
+    backImage: {
+        height: 20,
+        width: 20,
+        resizeMode: 'contain',
     },
     details: {
         marginLeft: 10,
@@ -131,5 +187,10 @@ const styles = StyleSheet.create({
         // backgroundColor:'blue',
         justifyContent: 'center',
         alignItems: "center"
+    },
+    HeaderText: {
+        color: 'black',
+        fontSize: 24,
+        fontWeight: 'bold'
     }
 });

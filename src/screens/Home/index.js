@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Button, StyleSheet, RefreshControl, ActivityIndicator, BackHandler, Alert } from 'react-native';
+import { View, Text, FlatList, Button, StyleSheet, RefreshControl, ActivityIndicator, BackHandler, Alert, TouchableOpacity } from 'react-native';
 import Card from '../../components/Card/Card';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
+import Header from '../../components/Header/Header';
 
 const Home = ({ navigation }) => {
 
     const [products, setProducts] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
-    const [cartCount, setCartC0unt] = useState(null);
-    // console.log('products.. ', products)
+    const [cartCount, setCartCount] = useState(null);
 
     const fetchProducts = async () => {
         try {
@@ -20,11 +22,31 @@ const Home = ({ navigation }) => {
             const data = await response.json();
             setProducts(data.products);
         } catch (error) {
-            console.error('Error fetching products:', error);
+            setProducts([])
+
         } finally {
             setIsLoading(false);
         }
     };
+
+    useFocusEffect(
+        React.useCallback(() => {
+            const fetchData = async () => {
+                try {
+                    const cart = await AsyncStorage.getItem('cart');
+                    if (cart) {
+                        const cartArray = JSON.parse(cart);
+                        setCartCount(cartArray.length);
+                    }
+                } catch (error) {
+                    console.error('Error retrieving cart items:', error);
+                }
+            };
+
+            fetchData();
+
+        }, [])
+    );
 
     useEffect(() => {
         const backAction = () => {
@@ -62,26 +84,23 @@ const Home = ({ navigation }) => {
     };
 
     return (
-        <View style={{ flex: 1 }}>
-            <View style={{ flex: 0.06, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-around' }}>
-                <View style={{ flex: 0.2 }} />
-                <View style={{ flex: 0.6, alignItems: 'center', justifyContent: 'center' }}>
-                    <Text style={styles.HeaderText}>Home</Text>
-                </View>
-                <View style={{ flex: 0.2, alignItems: 'center', justifyContent: 'center' }}>
-                    <Text style={[styles.HeaderText, { borderColor: 'grey', borderWidth: 1, padding: 5, fontSize: 20 }]}>Cart {cartCount}</Text>
-                </View>
-            </View>
+        <View style={styles.container}>
+            <Header
+                title="Home"
+                back={false}
+                cartCount={cartCount}
+                onCartPress={() => navigation.navigate('ShoppingCart')}
+            />
             {isLoading ? (
-                <View style={{ flex: 0.94, justifyContent: 'center', alignItems: 'center' }}>
+                <View style={styles.loadingContainer}>
                     <ActivityIndicator size="large" color="#0000ff" />
                 </View>
             ) : (
-                <View style={{ flex: 0.94 }}>
+                <View style={styles.contentContainer}>
                     <Button title="Refresh" onPress={handleRefresh} />
                     {
                         products?.length === 0 &&
-                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <View style={styles.noProductsContainer}>
                             <Text>No Products found</Text>
                         </View>
                     }
@@ -98,7 +117,24 @@ const Home = ({ navigation }) => {
 };
 
 export default Home;
+
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    loadingContainer: {
+        flex: 0.94,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    contentContainer: {
+        flex: 0.94,
+    },
+    noProductsContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     HeaderText: {
         color: 'black',
         fontSize: 24,

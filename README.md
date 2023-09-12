@@ -1,79 +1,98 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+React Native Project
 
-# Getting Started
+This is a new React Native project, bootstrapped using @react-native-community/cli.
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+Getting Started
 
-## Step 1: Start the Metro Server
+Before you begin, make sure you have completed the React Native - Environment Setup instructions till the "Creating a new application" step.
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+Step 1: Clone the Project
 
-To start Metro, run the following command from the _root_ of your React Native project:
+Clone this repository to your local machine:
 
-```bash
-# using npm
+git clone https://github.com/coder-minchu/PangramRN_test.git
+
+Step 2: Install Dependencies
+
+Navigate to the project directory and install project dependencies:
+
+cd PangramRN_test
+npm install
+# OR using Yarn
+# yarn install
+
+If you are using iOS, go to the ios folder and run:
+
+cd ios
+pod install
+
+Running the App
+
+Step 1: Start the Metro Server
+
+First, start Metro, the JavaScript bundler that ships with React Native. Run the following command from the root of your React Native project:
+
 npm start
-
 # OR using Yarn
-yarn start
-```
+# yarn start
 
-## Step 2: Start your Application
+Step 2: Start Your Application
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+Let Metro Bundler run in its own terminal. Open a new terminal from the root of your React Native project. Run the following command to start your Android or iOS app:
 
-### For Android
+For Android
 
-```bash
-# using npm
 npm run android
-
 # OR using Yarn
-yarn android
-```
+# yarn android
 
-### For iOS
+For iOS
 
-```bash
-# using npm
 npm run ios
-
 # OR using Yarn
-yarn ios
-```
+# yarn ios
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+If everything is set up correctly, you should see your new app running in your Android Emulator or iOS Simulator shortly provided you have set up your emulator/simulator correctly.
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+This is one way to run your app. You can also run it directly from within Android Studio and Xcode respectively.
 
-## Step 3: Modifying your App
+Modifying Your App
 
-Now that you have successfully run the app, let's modify it.
+Now that you have successfully run the app, let's modify it:
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+1. Open `App.js` in your text editor of choice and edit some lines.
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+2. For Android: Press the R key twice or select "Reload" from the Developer Menu (Ctrl + M on Windows and Linux or Cmd ⌘ + M on macOS) to see your changes!
 
-## Congratulations! :tada:
+3. For iOS: Hit Cmd ⌘ + R in your iOS Simulator to reload the app and see your changes!
+
+Hardcoded Login
+
+To access the app, use the following hardcoded login credentials:
+
+- Email: yash@gmail.com
+- Password: 123456
+
+After logging in, you will gain access to the product list.
+
+Product List and Details
+
+You can view the product list, and when you click on a product, it will show you all the product details.
+
+Congratulations! :tada:
 
 You've successfully run and modified your React Native App. :partying_face:
 
-### Now what?
+Troubleshooting
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+If you encounter any issues, refer to the Troubleshooting page.
 
-# Troubleshooting
+Learn More
 
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+To learn more about React Native, explore the following resources:
 
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+- React Native Website - learn more about React Native.
+- Getting Started - an overview of React Native and how to set up your environment.
+- Learn the Basics - a guided tour of React Native basics.
+- Blog - read the latest official React Native blog posts.
+- @facebook/react-native - the Open Source GitHub repository for React Native.

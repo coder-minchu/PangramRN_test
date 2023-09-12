@@ -19,10 +19,14 @@ const App = () => {
           header: () => null,
         }} component={Home} />
         <Stack.Screen name="ProductDetails"  options={{
-          title: 'Product Details',
-          headerTitleAlign: 'center',
+          // title: 'Product Details',
+          // headerTitleAlign: 'center',
+          header: () => null,
         }}  component={ProductDetails} />
-        <Stack.Screen name="ShoppingCart" component={ShoppingCart} /> 
+        <Stack.Screen name="ShoppingCart" options={{
+          title: 'Shopping cart',
+          headerTitleAlign: 'center',
+        }} component={ShoppingCart} /> 
       </Stack.Navigator>
     </NavigationContainer>
   )

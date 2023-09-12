@@ -4,8 +4,8 @@ import Input from '../../components/Input/Input';
 import CustomButton from '../../components/Button/CustomButton';
 
 export default function Login({ navigation }) {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('yash@gmail.com');
+    const [password, setPassword] = useState('123456');
 
     const handleLogin = () => {
         // Hardcoded username and password for demonstration purposes
